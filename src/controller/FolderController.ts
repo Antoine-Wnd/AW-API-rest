@@ -48,11 +48,10 @@ export class FolderController extends Controller {
       attributes: ["id"],
       where: {
         "$owner.email$": currentUser.email,
-        folderId: folderId
+        folderId: folderId,
       },
     };
-    // TODO: optimiser le filtrage côté BDD (actuellement on récupère tout le contenu du user puis on filtre dans le code)
-    //const folders = await Folder.findAll(findOptions);
+
     const files = await File.findAll(findOptions);
     //const allContent = [...files];
     return files;
@@ -65,19 +64,6 @@ export class FolderController extends Controller {
   ): Promise<void> {
     const currentUser = user as User;
     const id = request.id;
-    //if (!path.startsWith("/") || path.length < 2 || path.endsWith("/")) {
-    //  throw new Error("Incorrect path");
-    //}
-    // TODO: check with current user also
-    //const count = await Folder.count({
-    //  where: {
-    //    Folder: id,
-    //    ownerId: currentUser.id,
-    //  },
-    //});
-    //if (count > 0) {
-    //  throw new Error("Folder already exists");
-    //}
     const folder = await Folder.create({ id: id, owner: currentUser });
     folder.$set("owner", currentUser);
   }

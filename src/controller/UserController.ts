@@ -29,11 +29,12 @@ function getToken(id: number): string {
 
 @Route("/api/users")
 export class UserController extends Controller {
+  //Login des Users
   @Post("/login")
   public async login(
     @Body() userRequest: IAuthRequestBody
   ): Promise<IAuthResponseBody> {
-    console.log('in');
+    console.log("in");
     const user = await User.findOne({
       where: {
         email: userRequest.email,
@@ -47,6 +48,7 @@ export class UserController extends Controller {
     throw new Error("User not found");
   }
 
+  //Enregistrements des Users
   @Post("/register")
   public async register(
     @Body() userRequest: IAuthRequestBody
